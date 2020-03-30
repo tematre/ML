@@ -1,17 +1,22 @@
 from newspaper import Article
-import nltk
-nltk.download()
 
-url = 'https://newspaper.readthedocs.io/en/latest/'
+import newspaper
+nyt_paper = newspaper.build(
+    'http://nytimes.com/section/todayspaper', memoize_articles=False)
+print(nyt_paper.size())
 
-article = Article(url)
-article.download()
-article.parse()
 
-print(article.html)
-print(article.authors)
-print(article.text)
 
-article.nlp()
+processed_link_list = []
+for article_link in nyt_paper.articles:
+    article = Article(url=article_link.url)
+    article.download()
+    article.parse()
+    article.nlp()
+    print(article.title)
+    print(article.keywords)
+    processed_link_list.append(article_link)
 
-print(article.keywords)
+
+
+
